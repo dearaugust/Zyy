@@ -1,0 +1,35 @@
+<krpano>
+
+
+
+ 
+<events name="startlogoevents" keep="true"
+        onloadcomplete="
+              ifnot(layer[Welcome_logo].enabled,
+              set(layer[Welcome_logo].enabled,true);
+              set(layer[Welcome_title].enabled,true);
+              delayedcall(startpic1,5,tween(layer[Welcome_container].oy,2500,1));
+              delayedcall(startpic2,6,set(layer[Welcome_container].enabled,false);
+              set(layer[Welcome_container].visible,false));)
+"/>
+
+
+<!-- 使用屏幕宽度或高度的百分之九十 -->
+
+<action name="Welcome_resize">
+        div(aspect, layer[%1].imagewidth, layer[%1].imageheight); 
+        mul(new_width, stagewidth, 0.3);
+        div(new_height, new_width, aspect); 
+        mul(max_height, stageheight, 0.3); 
+        if(new_height GT max_height,
+        copy(new_height, max_height);
+        mul(new_width, new_height, aspect); 
+);
+        roundval(new_width); 
+        roundval(new_height);
+        copy(layer[%1].width, new_width); 
+        copy(layer[%1].height, new_height); 
+</action>
+<!-- 启动画面结束 -->
+
+</krpano>

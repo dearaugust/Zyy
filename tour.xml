@@ -1,0 +1,265 @@
+﻿<krpano version="1.19" title="Virtual Tour">
+	<!-- <plugin name="editor" keep="true" visible="true" url="%SWFPATH%/plugins/editor.swf" align="bottom" /> -->
+
+	<include url="skin/vtourskin.xml" />
+	<include url="%SWFPATH%/skin/style.xml" />
+	<include url="%SWFPATH%/skin/welcome.xml" />
+
+
+	<!-- customize skin settings: maps, gyro, webvr, thumbnails, tooltips, layout, design, ... -->
+	<skin_settings maps="false"
+	               maps_type="google"
+	               maps_bing_api_key=""
+	               maps_google_api_key=""
+	               maps_zoombuttons="false"
+	               gyro="true"
+	               webvr="true"
+	               webvr_gyro_keeplookingdirection="false"
+	               webvr_prev_next_hotspots="true"
+	               littleplanetintro="false"
+	               title="true"
+	               thumbs="true"
+	               thumbs_width="120" thumbs_height="80" thumbs_padding="10" thumbs_crop="0|40|240|160"
+	               thumbs_opened="false"
+	               thumbs_text="false"
+	               thumbs_dragging="true"
+	               thumbs_onhoverscrolling="false"
+	               thumbs_scrollbuttons="false"
+	               thumbs_scrollindicator="false"
+	               thumbs_loop="false"
+	               tooltips_buttons="false"
+	               tooltips_thumbs="false"
+	               tooltips_hotspots="false"
+	               tooltips_mapspots="false"
+	               deeplinking="false"
+	               loadscene_flags="MERGE"
+	               loadscene_blend="OPENBLEND(0.5, 0.0, 0.75, 0.05, linear)"
+	               loadscene_blend_prev="SLIDEBLEND(0.5, 180, 0.75, linear)"
+	               loadscene_blend_next="SLIDEBLEND(0.5,   0, 0.75, linear)"
+	               loadingtext="loading..."
+	               layout_width="100%"
+	               layout_maxwidth="814"
+	               controlbar_width="-24"
+	               controlbar_height="40"
+	               controlbar_offset="20"
+	               controlbar_offset_closed="-40"
+	               controlbar_overlap.no-fractionalscaling="10"
+	               controlbar_overlap.fractionalscaling="0"
+	               design="glass"
+	               design_skin_images="vtourskin.png"
+	               design_bgcolor="0x2D3E50"
+	               design_bgalpha="0.8"
+	               design_bgborder="0"
+	               design_bgroundedge="5"
+	               design_bgshadow="0 4 10 0x000000 0.5"
+	               design_thumbborder_bgborder="3 0xFFFFFF 1.0"
+	               design_thumbborder_padding="2"
+	               design_thumbborder_bgroundedge="0"
+	               design_text_css="color:#FFFFFF; font-family:Arial;"
+	               design_text_shadow="1"
+	               />
+
+<plugin name="soundinterface"
+        url.flash="%SWFPATH%/plugins/soundinterface.swf"
+        url.html5="%SWFPATH%/plugins/soundinterface.js"
+        rootpath=""
+        preload="true"
+        keep="true"
+        />
+	<!--
+	    For an alternative skin design either change the <skin_settings> values 
+	    from above or optionally include one of the predefined designs from below.
+	-->
+	<!-- <include url="skin/vtourskin_design_flat_light.xml"  /> -->
+	<!-- <include url="skin/vtourskin_design_glass.xml"       /> -->
+	<!-- <include url="skin/vtourskin_design_ultra_light.xml" /> -->
+	<!-- <include url="skin/vtourskin_design_117.xml"         /> -->
+	<!-- <include url="skin/vtourskin_design_117round.xml"    /> -->
+
+
+	<!-- startup action - load the first scene -->
+	<action name="startup" autorun="onstart">
+		if(startscene === null OR !scene[get(startscene)], copy(startscene,scene[0].name); );
+		loadscene(get(startscene), null, MERGE);
+		if(startactions !== null, startactions() );
+	</action>
+
+	<autorotate enabled="flase"
+	waittime="0.0"
+	speed="1"
+	horizon="0.0"
+	tofov="120.0"
+	/>
+ 
+	<scene name="scene_1" title="1" onstart="" thumburl="panos/1.tiles/thumb.jpg" lat="" lng="" heading="">
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/1.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/1.tiles/pano_%s.jpg" />
+		</image>
+
+		<layer name="Welcome_container"
+		       preload="true"
+		       alpha="1"
+		       onloaded="tween(alpha,1.0);"
+		       handcursor="true"
+		       enabled="true"
+		       children="true"
+		       visible="true"
+		       zorder="90"
+		       type="container"
+		       maskchildren="true"
+		       keep="true"
+		       width="100%"
+		       height="100%"
+		       bgcolor="0x000000"
+		       bgalpha="0" >
+		 
+		<layer name="Welcome_logo"
+		       zorder="100"
+		       keep="true"
+		       x="0"
+		       y="0"
+		       align="center"
+		       url="%SWFPATH%/skin/Welcome.png"
+		       scale="1"
+		       alpha="0"
+		       onloaded="tween(alpha,1.0);
+		                 tween(layer[Welcome_title].alpha,1.0);
+		                 Welcome_resize(get(name));"
+		       onclick="tween(alpha,0);
+		                delayedcall(2,set(layer[Welcome_container].enabled,false);
+		                set(layer[Welcome_container].visible,false);
+		                stopdelayedcall(startpic1);stopdelayedcall(startpic2);"
+		       enabled="false" />
+		 
+		<layer name="Welcome_title"
+		       background="true"
+		       backgroundcolor="0x999999"
+		       roundedge="10"
+		       backgroundalpha="0"
+		       border="true"
+		       bordercolor="0x999999"
+		       borderalpha="0"
+		       borderwidth="4.0"
+		       glow="0"
+		       glowcolor="0xCCCCCC"
+		       visible="true"
+		       keep="true"
+		       alpha="0"
+		       onloaded=""
+		       children="false"
+		       zorder="100"
+		       autowidth="auto"
+		       height="40"
+		       url="%SWFPATH%/plugins/textfield.swf"
+		       html=""
+		       align="center"
+		       x="0"
+		       y="150"
+		       css="text-align:center; color:#9B8179; font-family:SimHei; font-weight:bold; font-size:32px;"
+		       onclick="tween(layer[Welcome_container].oy,2500,1);
+		                delayedcall(2,set(layer[Welcome_container].enabled,false);
+		                set(layer[Welcome_container].visible,false);
+		                stopdelayedcall(startpic1);stopdelayedcall(startpic2);"
+		       enabled="false"
+			/>
+		 
+		</layer>
+
+		<hotspot name="spot7" onhover="showtext"
+		      style="hotspot_ani_Style3" ath="-52.571" atv="20.974" onclick="call_iframe('http://www.zeiot.cn/');"/>
+		<hotspot name="spot" style="hotspot_ani_black" ath="-27.631249" atv="-3.801928" distorted="true" rx="2.0" ry="-12.75" rz="15.133758" width="64" height="64" scale="1.64262" onhover="showtext('温控设备',hotspottextstyle);" text="温控设备" onclick="call_iframe('http://www.zeiot.cn/');" />
+		<action name="yd">
+			openurl('http://j.map.baidu.com/ukO9I',_blank)
+		</action>
+
+		<!-- <control mousetype="drag2d" /> -->
+		
+		<!-- <preview type="grid();" /> -->
+		
+		<layer   name="iframelayer"
+		         url="%SWFPATH%/skin/bg.png"
+                 align="center"
+		         width="40%"
+		         height="70%"
+		         zorder="10"
+                 visible="false"
+		         >
+
+
+		<layer name="closeiframe_button" url="%SWFPATH%/skin/close.png" align="righttop" zorder="99" x="5" y="5" scale="0.2" onclick="
+		        remove_iframe();
+        set(layer[iframelayer].visible,false);"/>         
+
+		</layer> 
+
+		<action name="call_iframe">
+
+      
+			callwith(layer[iframelayer],add_iframe(%1, 100%, 100%);set(visible,true));
+		
+
+		</action>	        
+
+	
+		<action name="add_iframe" type="Javascript"><![CDATA[
+				var iframe = document.createElement("iframe");
+				iframe.style.position = "absolute";
+				iframe.style.left = 0;
+				iframe.style.top = 0;
+				iframe.style.right = 0;
+				iframe.style.bottom = 0;
+				iframe.style.margin = "auto";
+				iframe.style.width = "100%";
+				iframe.style.height = "100%";
+				iframe.style.border = 0;
+				iframe.src = args[1];
+			        iframe.setAttribute('id',resolve(caller.name));
+				caller.registercontentsize(args[2], args[3]);
+				caller.sprite.appendChild(iframe);
+				caller.sprite.style.webkitOverflowScrolling = "touch";
+		        caller.sprite.style.overflowY = "auto";
+		        caller.sprite.style.overflowX = "auto";
+				]]>
+		</action>
+
+
+		<action name="remove_iframe" type="Javascript"><![CDATA[
+		 
+			var lastIframe = document.getElementById('iframelayer');
+			lastIframe.parentNode.removeChild(lastIframe);
+			]]>
+		</action>
+		<!-- <hotspot name="iframelayer"
+		         url="%SWFPATH%/skin/black.png"
+		         ath="5.907844" atv="-0.634728" width="1016" height="686" scale="0.513931" 
+		         distorted="true"
+		         renderer="css3d"
+		         onclick="delayedcall(0,add_iframe('https://www.baidu.com', 640, 360));"
+		         />
+		 
+		<action name="add_iframe" type="Javascript">
+		    var iframe = document.createElement("iframe");
+		    iframe.style.position = "absolute";
+		    iframe.style.left = 0;
+		    iframe.style.top = 0;
+		    iframe.style.width = "100%";
+		    iframe.style.height = "100%";
+		    iframe.style.border = 0;
+		    iframe.src = args[1];
+		    iframe.setAttribute('id',resolve(caller.name));
+		    caller.registercontentsize(args[2], args[3]);
+		    caller.sprite.appendChild(iframe);
+		    caller.sprite.style.webkitOverflowScrolling = "touch";
+		    caller.sprite.style.overflowY = "auto";
+		    caller.sprite.style.overflowX = "auto";
+		</action> -->
+
+	</scene>
+
+
+</krpano>
